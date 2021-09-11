@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1071157246048",
+    "project_id": "mobile-20e69",
+    "storage_bucket": "mobile-20e69.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1071157246048:android:4e0dbe2189ea3fd5bcab05",
+        "android_client_info": {
+          "package_name": "com.example.rentalz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1071157246048-ect5tdbtb751rm8s8k2lc4gtojp43n7u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCytRj5R10uP082Mz1b7qmaXh54FyjE2EE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1071157246048-ect5tdbtb751rm8s8k2lc4gtojp43n7u.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1071157246048-2v07i200cj20titobnfmqbv5koasuku0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.rentalz"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

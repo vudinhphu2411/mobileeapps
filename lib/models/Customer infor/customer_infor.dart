@@ -51,7 +51,7 @@ class CustomerInfo {
 
   factory CustomerInfo.fromJson(Map<String, dynamic> json) {
     return CustomerInfo(
-      fullname: json["fullName"],
+      fullname: json["fullname"],
       email: json["email"],
       country: json["country"],
       mobile: json["mobile"],

@@ -9,8 +9,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FirstPage extends StatefulWidget {
   const FirstPage({
     required this.customerInfo,
+    this.callBack,
   }) : super();
   final CustomerInfo customerInfo;
+  final void Function()? callBack;
 
   @override
   _FirstPageState createState() => _FirstPageState();
@@ -605,6 +607,9 @@ class _FirstPageState extends State<FirstPage> {
                                                             .pop(); // Confirm dialog
                                                         Navigator.of(context)
                                                             .pop(); // Back to home
+                                                        if (widget.callBack !=
+                                                            null)
+                                                          widget.callBack!();
                                                       },
                                                       buttonTitle: "Confirm",
                                                       textStyle: TextStyle(),

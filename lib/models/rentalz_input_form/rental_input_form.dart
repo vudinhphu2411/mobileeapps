@@ -29,9 +29,12 @@ class _FirstPageState extends State<FirstPage> {
   String dropDownValue = "Select your Property Type";
   String dropDownRoomValue = "Select your Room Type";
   String dropDownFurnitureValue = "Select your Furniture Types";
+  String districtDropdowValue = "Select your address";
+  String? finalFurnitureValue;
   bool check = false;
   bool check1 = false;
   bool check2 = false;
+  bool districtCheck = false;
 
   final fb = Firebase.initializeApp();
 
@@ -40,6 +43,28 @@ class _FirstPageState extends State<FirstPage> {
   String? valueChoose;
   List listItem = ["Flat", "House", "Bungalow"];
 
+  Future<String> updateFirebase(CustomerInfo customer) async {
+    try {
+      db.collection('UserRecord').add({
+        'fullname': customer.fullname,
+        'monthlyRenPrice': customer.monthlyRenPrice,
+        'email': customer.email,
+        'country': customer.country,
+        'mobile': customer.mobile,
+        'dateTime': customer.dateTime,
+        'address': customer.address,
+        'propertyName': customer.propertyName,
+        'propertyType': dropDownValue,
+        'roomType': dropDownRoomValue,
+        'furnitureType': finalFurnitureValue,
+        'notes': customer.notes,
+      });
+      return "DONE";
+    } on FirebaseException catch (e) {
+      return e.message!;
+    }
+  }
+
   String? valueSelectRoomType;
   List listRoomItem = [
     "Studio",
@@ -47,6 +72,70 @@ class _FirstPageState extends State<FirstPage> {
     "Twin bed room (TWN)",
     "Double bed room (DBL)",
     "Triple bed room (TRPL)"
+  ];
+  List district = [
+    "An Giang",
+    "Bà Rịa – Vũng Tàu",
+    "Bạc Liêu",
+    "Bắc Giang",
+    "Bắc Kạn",
+    "Bắc Ninh",
+    "Bến Tre",
+    "Bình Dương",
+    "Bình Định",
+    "Bình Phước",
+    "Bình Thuận",
+    "Cà Mau",
+    "Cao Bằng",
+    "Cần Thơ",
+    "Đà Nẵng",
+    "Đắk Lắk",
+    "Đắk Nông",
+    "Điện Biên",
+    "Đồng Nai",
+    "Đồng Tháp",
+    "Gia Lai",
+    "Hà Giang",
+    "Hà Nam",
+    "Hà Nội",
+    "Hà Tĩnh",
+    "Hải Dương",
+    "Hải Phòng",
+    "Hậu Giang",
+    "Hòa Bình",
+    "Thành phố Hồ Chí Minh",
+    "Hưng Yên",
+    "Khánh Hòa",
+    "Kiên Giang",
+    "Kon Tum",
+    "Lai Châu",
+    "Lạng Sơn",
+    "Lào Cai",
+    "Lâm Đồng",
+    "Long An",
+    "Nam Định",
+    "Nghệ An",
+    "Ninh Bình",
+    "Ninh Thuận",
+    "Phú Thọ",
+    "Phú Yên",
+    "Quảng Bình",
+    "Quảng Nam",
+    "Quảng Ngãi",
+    "Quảng Ninh",
+    "Quảng Trị",
+    "Sóc Trăng",
+    "Sơn La",
+    "Tây Ninh",
+    "Thái Bình",
+    "Thái Nguyên",
+    "Thanh Hóa",
+    "Thừa Thiên Huế",
+    "Tiền Giang",
+    "Trà Vinh",
+    "Tuyên Quang",
+    "Vĩnh Long",
+    "Vĩnh Phúc",
   ];
 
   String? valueFurniture;
@@ -286,27 +375,41 @@ class _FirstPageState extends State<FirstPage> {
                             ),
                           ),
                           SizedBox(height: 15),
-                          TextFormField(
-                            validator: (value) {
-                              if (value == null) return "Fill your Address";
-                              if (value.isEmpty) {
-                                return "Fill your Address";
-                              }
-                            },
-                            controller: address,
-                            decoration: InputDecoration(
-                              labelStyle: Constraint.Nunito(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey,
-                              ),
-                              labelText: "Address",
-                              fillColor: Colors.white70,
-                              filled: true,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(width: 0),
-                              ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border:
+                                  Border.all(color: Colors.grey, width: 1.5),
+                            ),
+                            child: DropdownButton(
+                              hint: (districtCheck)
+                                  ? Text("You need to choose",
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                      ))
+                                  : Text(districtDropdowValue),
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16),
+                              dropdownColor: Colors.white,
+                              icon: Icon(Icons.arrow_drop_down),
+                              iconSize: 30,
+                              isExpanded: true,
+                              underline: SizedBox(),
+                              // value: dropDownValue,
+                              onChanged: (newValue) {
+                                setState(() {
+                                  districtCheck = false;
+                                  districtDropdowValue = newValue.toString();
+                                });
+                              },
+                              items: district.map((valueItem1) {
+                                return DropdownMenuItem(
+                                  value: valueItem1,
+                                  child: Text(valueItem1),
+                                );
+                              }).toList(),
                             ),
                           ),
                           SizedBox(
@@ -439,13 +542,18 @@ class _FirstPageState extends State<FirstPage> {
                     });
                   }
                   keyForm.currentState!.validate();
-                  var finalFurnitureValue;
+                  if (districtDropdowValue == "Select your address") {
+                    setState(() {
+                      districtCheck = true;
+                    });
+                  }
                   if (dropDownFurnitureValue == "Select your Furniture Types")
                     finalFurnitureValue = null;
                   else
                     finalFurnitureValue = dropDownFurnitureValue;
                   if (dropDownValue != "Select your Property Type" &&
                       dropDownRoomValue != "Select your Room Type" &&
+                      districtDropdowValue != "Select your address" &&
                       keyForm.currentState!.validate()) {
                     var customer = CustomerInfo(
                       fullname: fullname.value.text,
@@ -461,22 +569,120 @@ class _FirstPageState extends State<FirstPage> {
                       furnitureType: finalFurnitureValue,
                       notes: notes.value.text,
                     );
-                    db.collection('UserRecord').add({
-                      'fullname': customer.fullname,
-                      'monthlyRenPrice': customer.monthlyRenPrice,
-                      'email': customer.email,
-                      'country': customer.country,
-                      'mobile': customer.mobile,
-                      'dateTime': customer.dateTime,
-                      'address': customer.address,
-                      'propertyName': customer.propertyName,
-                      'propertyType': dropDownValue,
-                      'roomType': dropDownRoomValue,
-                      'furnitureType': finalFurnitureValue,
-                      'notes': customer.notes,
-                    });
-
-                    Navigator.pop(context);
+                    // hiển thị bảng để người dùng check lại thôing tn ở đây
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            actions: [
+                              // Confirm button to add to firebase
+                              CustomButton(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return FutureBuilder<String>(
+                                          future: updateFirebase(customer),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.waiting)
+                                              return AlertDialog(
+                                                title: Text("Waiting"),
+                                                content: Container(
+                                                    child: Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                )),
+                                              );
+                                            if (snapshot.data == "DONE") {
+                                              return AlertDialog(
+                                                actions: [
+                                                  CustomButton(
+                                                      onTap: () {
+                                                        Navigator.of(context)
+                                                            .pop(); // Done dialog
+                                                        Navigator.of(context)
+                                                            .pop(); // Confirm dialog
+                                                        Navigator.of(context)
+                                                            .pop(); // Back to home
+                                                      },
+                                                      buttonTitle: "Confirm",
+                                                      textStyle: TextStyle(),
+                                                      height: 50)
+                                                ],
+                                                title: Text("Done"),
+                                                content: Container(
+                                                    child: Center(
+                                                  child: Text(
+                                                      "Your data has been updateed"),
+                                                )),
+                                              );
+                                            } else {
+                                              return AlertDialog(
+                                                actions: [
+                                                  CustomButton(
+                                                      onTap: () {
+                                                        Navigator.of(context)
+                                                            .pop(); // Done dialog
+                                                        Navigator.of(context)
+                                                            .pop(); // Confirm dialog
+                                                      },
+                                                      buttonTitle: "Confirm",
+                                                      textStyle: TextStyle(),
+                                                      height: 50)
+                                                ],
+                                                title: Text("Error"),
+                                                content: Container(
+                                                    child: Center(
+                                                  child: Text(snapshot.data!),
+                                                )),
+                                              );
+                                            }
+                                          },
+                                        );
+                                      });
+                                },
+                                buttonTitle: "Confirm",
+                                textStyle: Constraint.Nunito(fontSize: 18),
+                                height: 50,
+                              ),
+                              SizedBox(height: 15),
+                              // Cancel button
+                              CustomButton(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                buttonTitle: "Cancel",
+                                textStyle: Constraint.Nunito(fontSize: 18),
+                                height: 50,
+                              ),
+                            ],
+                            content: Container(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text("Check your data"),
+                                  Text("fullname : ${customer.fullname}"),
+                                  Text(
+                                      "monthlyRenPrice : ${customer.monthlyRenPrice}"),
+                                  Text("email : ${customer.email}"),
+                                  Text("country : ${customer.country}"),
+                                  Text("mobile : ${customer.mobile}"),
+                                  Text("address : ${customer.address}"),
+                                  Text(
+                                      "propertyType : ${customer.propertyType}"),
+                                  Text(
+                                      "propertyName : ${customer.propertyName}"),
+                                  Text("roomType : ${customer.roomType}"),
+                                  Text(
+                                      "furnitureType : ${customer.furnitureType}"),
+                                  Text("note : ${customer.notes}"),
+                                ],
+                              ),
+                            ),
+                          );
+                        });
                   }
                 },
                 buttonTitle: "Complete",

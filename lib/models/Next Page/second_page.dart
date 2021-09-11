@@ -33,7 +33,6 @@ class _SecondPageState extends State<SecondPage> {
   final List<Widget> tabs = [
     BottomTab1(
       customerInfo: CustomerInfo(),
-      documentId: 'h6pp8RzDPMIu2G0hUmGj',
     ),
     BottomTab2(),
   ];

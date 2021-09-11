@@ -7,10 +7,8 @@ import 'package:rentalz/models/rentalz_input_form/rental_input_form.dart';
 class BottomTab1 extends StatefulWidget {
   const BottomTab1({
     required this.customerInfo,
-    required this.documentId,
   }) : super();
   final CustomerInfo customerInfo;
-  final String documentId;
   @override
   _BottomTab1State createState() => _BottomTab1State();
 }
@@ -20,12 +18,6 @@ class _BottomTab1State extends State<BottomTab1> {
   int formState = 0; // 0 là view, 1 là edit,
 
   late final String documentId;
-  @override
-  void initState() {
-    super.initState();
-    // ignore: unnecessary_statements
-    documentId = widget.documentId;
-  }
 
   final fb = Firebase.initializeApp();
   final db = FirebaseFirestore.instance;
@@ -66,66 +58,61 @@ class _BottomTab1State extends State<BottomTab1> {
                   icon: Icon(Icons.delete)),
             ],
           ),
-          FutureBuilder<DocumentSnapshot>(
-            future: users.doc(documentId).get(),
-            builder: (BuildContext context,
-                AsyncSnapshot<DocumentSnapshot> snapshot) {
+          FutureBuilder<QuerySnapshot>(
+            future: users.get(),
+            builder: (BuildContext context, snapshot) {
               if (snapshot.hasError) {
                 return Text("Something went wrong");
               }
 
-              if (snapshot.hasData && !snapshot.data!.exists) {
+              if (!snapshot.hasData) {
                 print(snapshot.error);
-                print(snapshot.data!.data());
+                snapshot.data!.docs.forEach((QueryDocumentSnapshot doc) {
+                  print(doc.data());
+                });
                 print(documentId);
                 return Text("Document does not exist");
               }
 
               if (snapshot.connectionState == ConnectionState.done) {
-                Map<String, dynamic> data =
-                    snapshot.data!.data() as Map<String, dynamic>;
-                List<String> field =
-                    []; // khai báo mảng để lấy thông tin các trường
-                List<String> content =
-                    []; // khai báo mang để nhận thông tin nội dung của các trường
-                data.forEach((key, value) {
-                  // data là một cái Map nên mình có thể forEach qua từng phần tử và lấy thông tin của trường thông qua key và nội dung của trường thông qua value
-                  if (key != "dateTime") {
-                    field.add(key); // lấy thông tin trường thông qua key
-                    content.add(
-                        value); // lấy nội dung của trường đó thông qua value
-                  }
+                List<CustomerInfo> listCustomer = [];
+                snapshot.data!.docs.forEach((element) {
+                  listCustomer.add(CustomerInfo.fromJson(
+                      element.data() as Map<String, dynamic>));
                 });
                 return Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: List.generate(
-                        field.length,
-                        (index) => (formState == 0)
-                            ? Text("${field[index]} : ${content[index]}")
-                            : Expanded(
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                        flex: 1,
-                                        child: Text("${field[index]}")),
-                                    Expanded(
-                                        flex: 3,
-                                        child: TextFormField(
-                                          controller: TextEditingController(
-                                              text: content[index]),
-                                          decoration: InputDecoration(
-                                              border: OutlineInputBorder()),
-                                        )),
-                                  ],
-                                ),
-                              )),
-                    // mình trả về column với children là list các Text hiển thị field : content
+                    children: listCustomer
+                        .map((e) => Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                border:
+                                    Border.all(color: Colors.grey, width: 2),
+                              ),
+                              child: Column(
+                                children: [
+                                  Text("fullname: ${e.fullname}"),
+                                  Text("email: ${e.email}"),
+                                  Text("country: ${e.country}"),
+                                  Text("mobile: ${e.mobile}"),
+                                  Text("monthlyRenPrice: ${e.monthlyRenPrice}"),
+                                  Text("address : ${e.address}"),
+                                  // Text("dateTime: ${e.dateTime}"),
+                                  Text("nameOfProperty: ${e.propertyName}"),
+                                  Text("roomType: ${e.roomType}"),
+                                  Text("furnitureType: ${e.furnitureType}"),
+                                  Text("propertyType: ${e.propertyType}"),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                ],
+                              ),
+                            ))
+                        .toList(),
                   ),
                 );
               }
-
-              return Text("loading");
+              return Text("Loading");
             },
           ),
         ],

@@ -1,4 +1,3 @@
-
 class CustomerInfo {
   String? furnitureType;
   String? roomType;
@@ -41,7 +40,7 @@ class CustomerInfo {
       "country": this.country,
       "mobile": this.mobile,
       "monthlyRenPrice": this.monthlyRenPrice,
-      "address" : this.address,
+      "address": this.address,
       "dateTime": this.dateTime,
       "nameOfProperty": this.propertyName,
       "roomType": this.roomType,
@@ -58,12 +57,11 @@ class CustomerInfo {
       mobile: json["mobile"],
       monthlyRenPrice: json["monthlyRenPrice"],
       address: json["address"],
-      dateTime: json["dateTime"],
+      // dateTime: json["dateTime"],
       propertyName: json["propertyName"],
       propertyType: json["propertyType"],
       roomType: json["roomType"],
       furnitureType: json["furnitureType"],
     );
   }
-
 }

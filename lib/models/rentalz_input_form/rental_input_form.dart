@@ -669,27 +669,33 @@ class _FirstPageState extends State<FirstPage> {
                               ),
                             ],
                             content: Container(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Text("Check your data"),
-                                  Text("fullname : ${customer.fullname}"),
-                                  Text(
-                                      "monthlyRenPrice : ${customer.monthlyRenPrice}"),
-                                  Text("email : ${customer.email}"),
-                                  Text("country : ${customer.country}"),
-                                  Text("mobile : ${customer.mobile}"),
-                                  Text("address : ${customer.address}"),
-                                  Text(
-                                      "propertyType : ${customer.propertyType}"),
-                                  Text(
-                                      "propertyName : ${customer.propertyName}"),
-                                  Text("roomType : ${customer.roomType}"),
-                                  Text(
-                                      "furnitureType : ${customer.furnitureType}"),
-                                  Text("note : ${customer.notes}"),
-                                ],
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Check your Information"),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Text("Full Name : ${customer.fullname}"),
+                                    Text(
+                                        "Monthly Rent Price : ${customer.monthlyRenPrice}"),
+                                    Text("Email : ${customer.email}"),
+                                    Text("Country : ${customer.country}"),
+                                    Text("Mobile : ${customer.mobile}"),
+                                    Text(
+                                        "Property's Address : ${customer.address}"),
+                                    Text(
+                                        "Property's Type : ${customer.propertyType}"),
+                                    Text(
+                                        "Property's Name : ${customer.propertyName}"),
+                                    Text("Room Type : ${customer.roomType}"),
+                                    Text(
+                                        "Furniture's Type : ${customer.furnitureType}"),
+                                    Text("Note : ${customer.notes}"),
+                                  ],
+                                ),
                               ),
                             ),
                           );

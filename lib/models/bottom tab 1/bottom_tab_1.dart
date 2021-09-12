@@ -295,6 +295,7 @@ class _InfoTabState extends State<InfoTab> {
                                 Text("Room Type: ${e.roomType}"),
                                 Text("Furniture's Type: ${e.furnitureType}"),
                                 Text("Property' Type: ${e.propertyType}"),
+                                Text("Note: ${e.notes}"),
                                 SizedBox(
                                   height: 15,
                                 ),

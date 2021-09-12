@@ -18,6 +18,7 @@ class _BottomTab2State extends State<BottomTab2> {
   TextEditingController _searchcontroller = TextEditingController();
   final customer = CustomerInfo();
   int formState = 0;
+  String search = "";
 
   late final String documentId;
   Future<QuerySnapshot> getUser() async {
@@ -55,6 +56,11 @@ class _BottomTab2State extends State<BottomTab2> {
                   horizontal: 50,
                 ),
                 child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      search = value;
+                    });
+                  },
                   controller: _searchcontroller,
                   decoration: InputDecoration(
                     hintText: 'Search Name Of The Property',
@@ -68,12 +74,10 @@ class _BottomTab2State extends State<BottomTab2> {
                 ),
               ),
               StreamBuilder<QuerySnapshot>(
-                stream: (customer.propertyName != "" &&
-                        customer.propertyName != null)
+                stream: (search != "")
                     ? FirebaseFirestore.instance
                         .collection('UserRecord')
-                        .where("searchIndex",
-                            arrayContains: customer.propertyName)
+                        .where("searchIndex", arrayContains: search)
                         .snapshots()
                     : FirebaseFirestore.instance
                         .collection("UserRecord")
@@ -88,80 +92,83 @@ class _BottomTab2State extends State<BottomTab2> {
                   });
                   return (snapshot.connectionState == ConnectionState.waiting)
                       ? Center(child: CircularProgressIndicator())
-                      : ListView.builder(
-                          itemCount: snapshot.data!.docs.length,
-                          itemBuilder: (context, index) {
-                            DocumentSnapshot data = snapshot.data!.docs[index];
-                            return InfoTab(
-                                docId: data.id,
-                                initCustomerInfo: listCustomer[index],
-                                callBack: () {});
-                          },
+                      : Expanded(
+                          child: ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
+                            itemBuilder: (context, index) {
+                              DocumentSnapshot data =
+                                  snapshot.data!.docs[index];
+                              return InfoTab(
+                                  docId: data.id,
+                                  initCustomerInfo: listCustomer[index],
+                                  callBack: () {});
+                            },
+                          ),
                         );
                 },
               ),
-              Expanded(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            setState(() {
-                              (formState == 0) ? formState = 1 : formState = 0;
-                            });
-                          },
-                          icon: Icon(Icons.refresh),
-                        ),
-                      ],
-                    ),
-                    FutureBuilder<QuerySnapshot>(
-                      future: getUser(),
-                      builder: (BuildContext context, snapshot) {
-                        if (snapshot.hasError) {
-                          return Text("Something went wrong");
-                        }
+              // Expanded(
+              //   child: Column(
+              //     children: [
+              //       Row(
+              //         children: [
+              //           IconButton(
+              //             onPressed: () {
+              //               setState(() {
+              //                 (formState == 0) ? formState = 1 : formState = 0;
+              //               });
+              //             },
+              //             icon: Icon(Icons.refresh),
+              //           ),
+              //         ],
+              //       ),
+              //       FutureBuilder<QuerySnapshot>(
+              //         future: getUser(),
+              //         builder: (BuildContext context, snapshot) {
+              //           if (snapshot.hasError) {
+              //             return Text("Something went wrong");
+              //           }
 
-                        if (!snapshot.hasData) {
-                          return Text("Document does not exist");
-                        }
+              //           if (!snapshot.hasData) {
+              //             return Text("Document does not exist");
+              //           }
 
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          List<CustomerInfo> listCustomer = [];
-                          List<String> docIds = [];
-                          snapshot.data!.docs.forEach((element) {
-                            docIds.add(element.id);
-                            listCustomer.add(CustomerInfo.fromJson(
-                                element.data() as Map<String, dynamic>));
-                          });
-                          return Expanded(
-                            child: ListView(
-                              children: List.generate(
-                                listCustomer.length,
-                                (index) => Column(
-                                  children: [
-                                    InfoTab(
-                                      docId: docIds[index],
-                                      initCustomerInfo: listCustomer[index],
-                                      callBack: () {
-                                        setState(() {});
-                                      },
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        }
-                        return Text("Loading");
-                      },
-                    ),
-                  ],
-                ),
-              )
+              //           if (snapshot.connectionState == ConnectionState.done) {
+              //             List<CustomerInfo> listCustomer = [];
+              //             List<String> docIds = [];
+              //             snapshot.data!.docs.forEach((element) {
+              //               docIds.add(element.id);
+              //               listCustomer.add(CustomerInfo.fromJson(
+              //                   element.data() as Map<String, dynamic>));
+              //             });
+              //             return Expanded(
+              //               child: ListView(
+              //                 children: List.generate(
+              //                   listCustomer.length,
+              //                   (index) => Column(
+              //                     children: [
+              //                       InfoTab(
+              //                         docId: docIds[index],
+              //                         initCustomerInfo: listCustomer[index],
+              //                         callBack: () {
+              //                           setState(() {});
+              //                         },
+              //                       ),
+              //                       SizedBox(
+              //                         height: 10,
+              //                       ),
+              //                     ],
+              //                   ),
+              //                 ),
+              //               ),
+              //             );
+              //           }
+              //           return Text("Loading");
+              //         },
+              //       ),
+              //     ],
+              //   ),
+              // )
             ],
           ),
         ),

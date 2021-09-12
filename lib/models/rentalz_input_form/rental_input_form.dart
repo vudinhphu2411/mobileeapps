@@ -58,6 +58,17 @@ class _FirstPageState extends State<FirstPage> {
       return e.message!;
     }
     try {
+      //moi them vaoo !!
+      print(customer.fullname);
+      List<String> splitList = customer.fullname!.split('');
+      List<String> indexList = [];
+
+      for (int i = 0; i < splitList.length; i++) {
+        for (int j = 0; j < splitList[i].length + i; j++) {
+          indexList.add(splitList[i].substring(0, j).toLowerCase());
+        }
+      }
+
       db.collection('UserRecord').add({
         'fullname': customer.fullname,
         'monthlyRenPrice': customer.monthlyRenPrice,
@@ -71,6 +82,7 @@ class _FirstPageState extends State<FirstPage> {
         'roomType': customer.roomType,
         'furnitureType': customer.furnitureType,
         'notes': customer.notes,
+        'searchIndex': indexList,
       });
       return "DONE";
     } on FirebaseException catch (e) {
@@ -636,7 +648,7 @@ class _FirstPageState extends State<FirstPage> {
                                                 content: Container(
                                                     child: Center(
                                                   child: Text(
-                                                      "Your data has been updateed"),
+                                                      "Your information has been updateed"),
                                                 )),
                                               );
                                             } else {

@@ -34,7 +34,9 @@ class _SecondPageState extends State<SecondPage> {
     BottomTab1(
       customerInfo: CustomerInfo(),
     ),
-    BottomTab2(),
+    BottomTab2(
+      customerInfo: CustomerInfo(),
+    ),
   ];
 
   @override

@@ -120,6 +120,7 @@ class _InfoTabState extends State<InfoTab> {
   late CustomerInfo e;
   bool showComment = false;
   bool isEdit = false;
+  bool isMore = false;
   TextEditingController commentController = TextEditingController();
 
   Future<List<String>?> getInfo(String id) async {
@@ -287,7 +288,7 @@ class _InfoTabState extends State<InfoTab> {
                 child: (!isEdit)
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Row(
+                        child: Column(
                           children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -296,17 +297,18 @@ class _InfoTabState extends State<InfoTab> {
                                   height: 10,
                                 ),
                                 Text("Full Name: ${e.fullname}"),
-                                Text("Email: ${e.email}"),
-                                Text("Country: ${e.country}"),
-                                Text("Mobile: ${e.mobile}"),
-                                Text(
-                                    "Monthly Rent Price: ${e.monthlyRenPrice}"),
+                                if (isMore) Text("Email: ${e.email}"),
+                                if (isMore) Text("Country: ${e.country}"),
+                                if (isMore) Text("Mobile: ${e.mobile}"),
+                                if (isMore)
+                                  Text(
+                                      "Monthly Rent Price: ${e.monthlyRenPrice}"),
                                 Text("Property's Address : ${e.address}"),
                                 Text("Property's Name: ${e.propertyName}"),
                                 Text("Room Type: ${e.roomType}"),
                                 Text("Furniture's Type: ${e.furnitureType}"),
                                 Text("Property' Type: ${e.propertyType}"),
-                                Text("Note: ${e.notes}"),
+                                if (isMore) Text("Note: ${e.notes}"),
                                 SizedBox(
                                   height: 15,
                                 ),
@@ -569,6 +571,14 @@ class _InfoTabState extends State<InfoTab> {
                 flex: 1,
                 child: Column(
                   children: [
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isMore = !isMore;
+                        });
+                      },
+                      icon: Icon(Icons.more),
+                    ),
                     IconButton(
                       onPressed: () {
                         setState(() {

@@ -150,6 +150,7 @@ class _InfoTabState extends State<InfoTab> {
   TextEditingController? mobile;
   TextEditingController? monthlyRenPrice;
   TextEditingController? nameOfProperty;
+  TextEditingController? notes;
   List<TextEditingController>? lsController;
   @override
   void initState() {
@@ -162,6 +163,7 @@ class _InfoTabState extends State<InfoTab> {
     mobile = TextEditingController(text: e.mobile);
     monthlyRenPrice = TextEditingController(text: e.monthlyRenPrice);
     nameOfProperty = TextEditingController(text: e.propertyName);
+    notes = TextEditingController(text: e.notes);
     dropDownValue = e.propertyType!;
     dropDownRoomValue = e.roomType!;
     dropDownFurnitureValue = e.furnitureType!;
@@ -173,6 +175,7 @@ class _InfoTabState extends State<InfoTab> {
       mobile!,
       monthlyRenPrice!,
       nameOfProperty!,
+      notes!,
     ];
     super.initState();
   }
@@ -184,6 +187,7 @@ class _InfoTabState extends State<InfoTab> {
     "Mobile",
     "Monthly Rent Price",
     "Name of Property",
+    "Note",
   ];
 
   List listFurnitureItem = ["Furnished", "Unfurnished", "Part Furnished"];
@@ -531,6 +535,7 @@ class _InfoTabState extends State<InfoTab> {
                                   "country": country!.text,
                                   "mobile": mobile!.text,
                                   "monthlyRenPrice": monthlyRenPrice!.text,
+                                  "notes": notes!.text,
                                   "address": districtDropdowValue,
                                   "nameOfProperty": nameOfProperty!.text,
                                   "roomType": dropDownRoomValue,

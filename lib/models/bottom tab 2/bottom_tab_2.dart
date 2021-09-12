@@ -4,11 +4,11 @@ import 'package:rentalz/models/Customer%20infor/customer_infor.dart';
 import 'package:rentalz/widgets/custom_buttom/custom_button.dart';
 
 class BottomTab2 extends StatefulWidget {
-  const BottomTab2(
-      {Key? key, required this.customerInfo, required this.searchString})
-      : super(key: key);
+  const BottomTab2({
+    Key? key,
+    required this.customerInfo,
+  }) : super(key: key);
   final CustomerInfo customerInfo;
-  final String searchString;
 
   @override
   _BottomTab2State createState() => _BottomTab2State();
@@ -20,7 +20,6 @@ class _BottomTab2State extends State<BottomTab2> {
   int formState = 0;
 
   late final String documentId;
-  late String searchString;
   Future<QuerySnapshot> getUser() async {
     CollectionReference users =
         FirebaseFirestore.instance.collection('UserRecord');
@@ -67,6 +66,39 @@ class _BottomTab2State extends State<BottomTab2> {
                     ),
                   ),
                 ),
+              ),
+              StreamBuilder<QuerySnapshot>(
+                stream: (customer.propertyName != "" &&
+                        customer.propertyName != null)
+                    ? FirebaseFirestore.instance
+                        .collection('UserRecord')
+                        .where("searchIndex",
+                            arrayContains: customer.propertyName)
+                        .snapshots()
+                    : FirebaseFirestore.instance
+                        .collection("UserRecord")
+                        .snapshots(),
+                builder: (context, snapshot) {
+                  List<CustomerInfo> listCustomer = [];
+                  List<String> docIds = [];
+                  snapshot.data!.docs.forEach((element) {
+                    docIds.add(element.id);
+                    listCustomer.add(CustomerInfo.fromJson(
+                        element.data() as Map<String, dynamic>));
+                  });
+                  return (snapshot.connectionState == ConnectionState.waiting)
+                      ? Center(child: CircularProgressIndicator())
+                      : ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot data = snapshot.data!.docs[index];
+                            return InfoTab(
+                                docId: data.id,
+                                initCustomerInfo: listCustomer[index],
+                                callBack: () {});
+                          },
+                        );
+                },
               ),
               Expanded(
                 child: Column(

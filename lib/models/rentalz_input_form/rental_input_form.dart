@@ -58,7 +58,7 @@ class _FirstPageState extends State<FirstPage> {
       return e.message!;
     }
     try {
-      List<String> splitList = customer.propertyName!.split(' ');
+      List<String> splitList = [customer.propertyName!];
       List<String> indexList = [];
 
       for (int i = 0; i < splitList.length; i++) {

@@ -31,7 +31,7 @@ class _FirstPageState extends State<FirstPage> {
   String dropDownValue = "Select your Property Type";
   String dropDownRoomValue = "Select your Room Type";
   String dropDownFurnitureValue = "Select your Furniture Types";
-  String districtDropdowValue = "Select your address";
+  String districtDropdowValue = "Select Property's address";
   String? finalFurnitureValue;
   bool check = false;
   bool check1 = false;
@@ -56,9 +56,9 @@ class _FirstPageState extends State<FirstPage> {
         'dateTime': customer.dateTime,
         'address': customer.address,
         'propertyName': customer.propertyName,
-        'propertyType': dropDownValue,
-        'roomType': dropDownRoomValue,
-        'furnitureType': finalFurnitureValue,
+        'propertyType': customer.propertyType,
+        'roomType': customer.roomType,
+        'furnitureType': customer.furnitureType,
         'notes': customer.notes,
       });
       return "DONE";
@@ -302,6 +302,50 @@ class _FirstPageState extends State<FirstPage> {
                           SizedBox(
                             height: 15,
                           ),
+                          Padding(
+                            padding: const EdgeInsets.all(0),
+                            child: Container(
+                              padding: EdgeInsets.only(left: 16, right: 16),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                border:
+                                    Border.all(color: Colors.grey, width: 1.5),
+                              ),
+                              child: DropdownButton(
+                                hint: (districtCheck)
+                                    ? Text("You need to choose",
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                        ))
+                                    : Text(districtDropdowValue),
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16),
+                                dropdownColor: Colors.white,
+                                icon: Icon(Icons.arrow_drop_down),
+                                iconSize: 30,
+                                isExpanded: true,
+                                underline: SizedBox(),
+                                // value: dropDownValue,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    districtCheck = false;
+                                    districtDropdowValue = newValue.toString();
+                                  });
+                                },
+                                items: district.map((valueItem1) {
+                                  return DropdownMenuItem(
+                                    value: valueItem1,
+                                    child: Text(valueItem1),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
                           TextFormField(
                             validator: (value) {
                               if (value == null)
@@ -374,44 +418,6 @@ class _FirstPageState extends State<FirstPage> {
                                 borderRadius: BorderRadius.circular(15),
                                 borderSide: BorderSide(width: 0),
                               ),
-                            ),
-                          ),
-                          SizedBox(height: 15),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              border:
-                                  Border.all(color: Colors.grey, width: 1.5),
-                            ),
-                            child: DropdownButton(
-                              hint: (districtCheck)
-                                  ? Text("You need to choose",
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                      ))
-                                  : Text(districtDropdowValue),
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16),
-                              dropdownColor: Colors.white,
-                              icon: Icon(Icons.arrow_drop_down),
-                              iconSize: 30,
-                              isExpanded: true,
-                              underline: SizedBox(),
-                              // value: dropDownValue,
-                              onChanged: (newValue) {
-                                setState(() {
-                                  districtCheck = false;
-                                  districtDropdowValue = newValue.toString();
-                                });
-                              },
-                              items: district.map((valueItem1) {
-                                return DropdownMenuItem(
-                                  value: valueItem1,
-                                  child: Text(valueItem1),
-                                );
-                              }).toList(),
                             ),
                           ),
                           SizedBox(
@@ -564,7 +570,7 @@ class _FirstPageState extends State<FirstPage> {
                       country: country.value.text,
                       mobile: mobile.value.text,
                       dateTime: DateTime.now(),
-                      address: address.value.text,
+                      address: districtDropdowValue,
                       propertyName: propertyName.value.text,
                       propertyType: dropDownValue,
                       roomType: dropDownRoomValue,

@@ -68,64 +68,67 @@ class _BottomTab2State extends State<BottomTab2> {
                   ),
                 ),
               ),
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      IconButton(
+              Expanded(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
                           onPressed: () {
                             setState(() {
                               (formState == 0) ? formState = 1 : formState = 0;
                             });
                           },
-                          icon: Icon(Icons.refresh)),
-                    ],
-                  ),
-                  FutureBuilder<QuerySnapshot>(
-                    future: getUser(),
-                    builder: (BuildContext context, snapshot) {
-                      if (snapshot.hasError) {
-                        return Text("Something went wrong");
-                      }
+                          icon: Icon(Icons.refresh),
+                        ),
+                      ],
+                    ),
+                    FutureBuilder<QuerySnapshot>(
+                      future: getUser(),
+                      builder: (BuildContext context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Text("Something went wrong");
+                        }
 
-                      if (!snapshot.hasData) {
-                        return Text("Document does not exist");
-                      }
+                        if (!snapshot.hasData) {
+                          return Text("Document does not exist");
+                        }
 
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        List<CustomerInfo> listCustomer = [];
-                        List<String> docIds = [];
-                        snapshot.data!.docs.forEach((element) {
-                          docIds.add(element.id);
-                          listCustomer.add(CustomerInfo.fromJson(
-                              element.data() as Map<String, dynamic>));
-                        });
-                        return Expanded(
-                          child: ListView(
-                            children: List.generate(
-                              listCustomer.length,
-                              (index) => Column(
-                                children: [
-                                  InfoTab(
-                                    docId: docIds[index],
-                                    initCustomerInfo: listCustomer[index],
-                                    callBack: () {
-                                      setState(() {});
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                ],
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          List<CustomerInfo> listCustomer = [];
+                          List<String> docIds = [];
+                          snapshot.data!.docs.forEach((element) {
+                            docIds.add(element.id);
+                            listCustomer.add(CustomerInfo.fromJson(
+                                element.data() as Map<String, dynamic>));
+                          });
+                          return Expanded(
+                            child: ListView(
+                              children: List.generate(
+                                listCustomer.length,
+                                (index) => Column(
+                                  children: [
+                                    InfoTab(
+                                      docId: docIds[index],
+                                      initCustomerInfo: listCustomer[index],
+                                      callBack: () {
+                                        setState(() {});
+                                      },
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        );
-                      }
-                      return Text("Loading");
-                    },
-                  ),
-                ],
+                          );
+                        }
+                        return Text("Loading");
+                      },
+                    ),
+                  ],
+                ),
               )
             ],
           ),

@@ -58,13 +58,11 @@ class _FirstPageState extends State<FirstPage> {
       return e.message!;
     }
     try {
-      //moi them vaoo !!
-      print(customer.fullname);
-      List<String> splitList = customer.fullname!.split('');
+      List<String> splitList = customer.propertyName!.split(' ');
       List<String> indexList = [];
 
       for (int i = 0; i < splitList.length; i++) {
-        for (int j = 0; j < splitList[i].length + i; j++) {
+        for (int j = 1; j < splitList[i].length + 1; j++) {
           indexList.add(splitList[i].substring(0, j).toLowerCase());
         }
       }

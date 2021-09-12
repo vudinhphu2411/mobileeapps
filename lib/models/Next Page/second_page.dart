@@ -36,6 +36,7 @@ class _SecondPageState extends State<SecondPage> {
     ),
     BottomTab2(
       customerInfo: CustomerInfo(),
+      searchString: '',
     ),
   ];
 

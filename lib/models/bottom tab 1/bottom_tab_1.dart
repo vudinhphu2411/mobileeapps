@@ -16,7 +16,7 @@ class BottomTab1 extends StatefulWidget {
 
 class _BottomTab1State extends State<BottomTab1> {
   final customer = CustomerInfo();
-  int formState = 0; // 0 là view, 1 là edit,
+  int formState = 0;
 
   late final String documentId;
   Future<QuerySnapshot> getUser() async {

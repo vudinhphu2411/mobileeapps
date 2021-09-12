@@ -75,12 +75,19 @@ class _BottomTab1State extends State<BottomTab1> {
                   child: ListView(
                     children: List.generate(
                       listCustomer.length,
-                      (index) => InfoTab(
-                        docId: docIds[index],
-                        initCustomerInfo: listCustomer[index],
-                        callBack: () {
-                          setState(() {});
-                        },
+                      (index) => Column(
+                        children: [
+                          InfoTab(
+                            docId: docIds[index],
+                            initCustomerInfo: listCustomer[index],
+                            callBack: () {
+                              setState(() {});
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
                       ),
                     ),
                   ),

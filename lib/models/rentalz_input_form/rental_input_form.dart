@@ -47,6 +47,17 @@ class _FirstPageState extends State<FirstPage> {
 
   Future<String> updateFirebase(CustomerInfo customer) async {
     try {
+      var docs = await db
+          .collection("UserRecord")
+          .where("propertyName", isEqualTo: customer.propertyName)
+          .get();
+      if (docs.docs.length != 0) {
+        return "Duplicate property name";
+      }
+    } on FirebaseException catch (e) {
+      return e.message!;
+    }
+    try {
       db.collection('UserRecord').add({
         'fullname': customer.fullname,
         'monthlyRenPrice': customer.monthlyRenPrice,

@@ -57,7 +57,7 @@ class CustomerInfo {
       mobile: json["mobile"],
       monthlyRenPrice: json["monthlyRenPrice"],
       address: json["address"],
-      // dateTime: json["dateTime"],
+      notes: json["notes"],
       propertyName: json["propertyName"],
       propertyType: json["propertyType"],
       roomType: json["roomType"],

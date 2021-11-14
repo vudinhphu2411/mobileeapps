@@ -63,7 +63,7 @@ class _BottomTab2State extends State<BottomTab2> {
                   },
                   controller: _searchcontroller,
                   decoration: InputDecoration(
-                    hintText: 'Search Name of the Property or Full Name',
+                    hintText: 'Search...',
                     prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(

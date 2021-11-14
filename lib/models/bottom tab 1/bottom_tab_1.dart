@@ -101,7 +101,6 @@ class _BottomTab1State extends State<BottomTab1> {
 }
 
 class InfoTab extends StatefulWidget {
-  // cai khung o day nha a
   const InfoTab({
     Key? key,
     required this.docId,

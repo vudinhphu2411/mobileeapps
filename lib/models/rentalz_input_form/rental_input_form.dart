@@ -58,7 +58,19 @@ class _FirstPageState extends State<FirstPage> {
       return e.message!;
     }
     try {
-      List<String> splitList = [customer.propertyName!];
+      //split word to search
+      List<String> splitList = [
+        customer.propertyName!,
+        customer.fullname!,
+        customer.country!,
+        customer.address!,
+        customer.email!,
+        customer.mobile!,
+        customer.monthlyRenPrice!,
+        customer.furnitureType!,
+        customer.propertyType!,
+        customer.roomType!
+      ];
       List<String> indexList = [];
 
       for (int i = 0; i < splitList.length; i++) {
@@ -355,10 +367,10 @@ class _FirstPageState extends State<FirstPage> {
                                     districtDropdowValue = newValue.toString();
                                   });
                                 },
-                                items: district.map((valueItem1) {
+                                items: district.map((valueItem4) {
                                   return DropdownMenuItem(
-                                    value: valueItem1,
-                                    child: Text(valueItem1),
+                                    value: valueItem4,
+                                    child: Text(valueItem4),
                                   );
                                 }).toList(),
                               ),
@@ -557,12 +569,12 @@ class _FirstPageState extends State<FirstPage> {
                 onTap: () {
                   if (dropDownValue == "Select your Property Type") {
                     setState(() {
-                      check = true; // check 1 true
+                      check = true;
                     });
                   }
                   if (dropDownRoomValue == "Select your Room Type") {
                     setState(() {
-                      check1 = true; // check true
+                      check1 = true;
                     });
                   }
                   if (dropDownFurnitureValue == "Select your Furniture Types") {
@@ -571,7 +583,7 @@ class _FirstPageState extends State<FirstPage> {
                     });
                   }
                   keyForm.currentState!.validate();
-                  if (districtDropdowValue == "Select your address") {
+                  if (districtDropdowValue == "Select Property's address") {
                     setState(() {
                       districtCheck = true;
                     });
@@ -598,7 +610,7 @@ class _FirstPageState extends State<FirstPage> {
                       furnitureType: finalFurnitureValue,
                       notes: notes.value.text,
                     );
-                    // hiển thị bảng để người dùng check lại thôing tn ở đây
+
                     showDialog(
                         context: context,
                         builder: (context) {

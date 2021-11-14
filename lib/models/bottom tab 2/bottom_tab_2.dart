@@ -53,7 +53,7 @@ class _BottomTab2State extends State<BottomTab2> {
               Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 10,
-                  horizontal: 50,
+                  horizontal: 10,
                 ),
                 child: TextField(
                   onChanged: (value) {
@@ -63,7 +63,7 @@ class _BottomTab2State extends State<BottomTab2> {
                   },
                   controller: _searchcontroller,
                   decoration: InputDecoration(
-                    hintText: 'Search Name Of The Property',
+                    hintText: 'Search Name of the Property or Full Name',
                     prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
@@ -98,77 +98,22 @@ class _BottomTab2State extends State<BottomTab2> {
                             itemBuilder: (context, index) {
                               DocumentSnapshot data =
                                   snapshot.data!.docs[index];
-                              return InfoTab(
-                                  docId: data.id,
-                                  initCustomerInfo: listCustomer[index],
-                                  callBack: () {});
+                              return Column(
+                                children: [
+                                  InfoTab(
+                                      docId: data.id,
+                                      initCustomerInfo: listCustomer[index],
+                                      callBack: () {
+                                        setState(() {});
+                                      }),
+                                  SizedBox(height: 10),
+                                ],
+                              );
                             },
                           ),
                         );
                 },
               ),
-              // Expanded(
-              //   child: Column(
-              //     children: [
-              //       Row(
-              //         children: [
-              //           IconButton(
-              //             onPressed: () {
-              //               setState(() {
-              //                 (formState == 0) ? formState = 1 : formState = 0;
-              //               });
-              //             },
-              //             icon: Icon(Icons.refresh),
-              //           ),
-              //         ],
-              //       ),
-              //       FutureBuilder<QuerySnapshot>(
-              //         future: getUser(),
-              //         builder: (BuildContext context, snapshot) {
-              //           if (snapshot.hasError) {
-              //             return Text("Something went wrong");
-              //           }
-
-              //           if (!snapshot.hasData) {
-              //             return Text("Document does not exist");
-              //           }
-
-              //           if (snapshot.connectionState == ConnectionState.done) {
-              //             List<CustomerInfo> listCustomer = [];
-              //             List<String> docIds = [];
-              //             snapshot.data!.docs.forEach((element) {
-              //               docIds.add(element.id);
-              //               listCustomer.add(CustomerInfo.fromJson(
-              //                   element.data() as Map<String, dynamic>));
-              //             });
-              //             return Expanded(
-              //               child: ListView(
-              //                 children: List.generate(
-              //                   listCustomer.length,
-              //                   (index) => Column(
-              //                     children: [
-              //                       InfoTab(
-              //                         docId: docIds[index],
-              //                         initCustomerInfo: listCustomer[index],
-              //                         callBack: () {
-              //                           setState(() {});
-              //                         },
-              //                       ),
-              //                       SizedBox(
-              //                         height: 10,
-              //                       ),
-              //                     ],
-              //                   ),
-              //                 ),
-              //               ),
-              //             );
-              //           }
-              //           return Text("Loading");
-              //         },
-              //       ),
-              //     ],
-              //   ),
-              // )
             ],
           ),
         ),
@@ -176,7 +121,6 @@ class _BottomTab2State extends State<BottomTab2> {
 }
 
 class InfoTab extends StatefulWidget {
-  // cai khung o day nha a
   const InfoTab({
     Key? key,
     required this.docId,
